@@ -28,6 +28,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Set the scene to the view
         sceneView.scene = scene
+        
+        guard let container = sceneView.scene.rootNode.childNode(withName: "container", recursively: false) else { return }
+        container.runAction(SCNAction.scale(by: 0.1, duration: 0.1))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,9 +59,14 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         //container
         guard let container = sceneView.scene.rootNode.childNode(withName: "container", recursively: false) else { return }
         
-        container.removeFromParentNode()
+        let actIn = SCNAction.scale(by: 10, duration: 0.5)
+        actIn.timingMode = SCNActionTimingMode.easeInEaseOut
+        
         node.addChildNode(container)
         container.isHidden = false
+        
+        container.runAction(actIn)
     }
+    
 
 }
